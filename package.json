@@ -1,0 +1,46 @@
+{
+  "name": "fse_chat_room",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "NODE_ENV=prod node server.js",
+    "dev": "NODE_ENV=dev node server.js",
+    "test": "jest --runInBand --coverage --forceExit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hsinyu-ken-lu/fse_chat_room.git"
+  },
+  "author": "hsinyulu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hsinyu-ken-lu/fse_chat_room/issues"
+  },
+  "homepage": "https://github.com/hsinyu-ken-lu/fse_chat_room#readme",
+  "dependencies": {
+    "app-root-path": "^3.0.0",
+    "bcrypt": "^5.0.1",
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.2",
+    "express-session": "^1.17.2",
+    "joi": "^17.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^4.3.1",
+    "mongoose": "^6.2.0",
+    "mysql": "^2.18.1",
+    "nodemailer": "^6.7.3",
+    "socket.io": "^4.4.0",
+    "superagent": "^7.1.1",
+    "uuid": "^8.3.2",
+    "winston": "^3.7.2",
+    "winston-mongodb": "^5.0.7"
+  },
+  "devDependencies": {
+    "jest": "^27.5.1",
+    "mongodb-memory-server": "^8.4.1",
+    "nodemailer-mock": "^1.5.11"
+  }
+}

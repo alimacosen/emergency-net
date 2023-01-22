@@ -1,0 +1,83 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-image: url("../img/home.jpeg");
+  background-size: cover;
+}
+
+.form-signin {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+}
+
+/* error message design */
+.form-signin .error-message{
+  display: none;
+  background-color: rgba(255, 0, 0, 0.301);
+  border-style: solid;
+  border-width: 3px;
+  border-color: red;
+  padding: 2%;
+}
+
+.form-signin .error-message p{
+  color: #55595d;
+}
+
+/* log in form design */
+.form-signin .form-floating:focus-within {
+  z-index: 2;
+}
+
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+/* register confirmation design */
+.form-signin .register-confirmation{
+  display: none;
+  padding: 2%;
+}
+
+.form-signin .register-confirmation p{
+  color: red;
+  margin-bottom: 0.5rem;
+}
+
+.form-register-button{
+  width: 49%;
+}
+
+#not-register{
+  border-color: #C1BCBC;
+  background-color: #C1BCBC;
+}
+#register{
+  border-color: rgb(187, 187, 187);
+}
+
+/* .create-acc {
+  display: flex;
+  justify-content: right;
+}
+
+.create-acc button{
+  padding: 0px;
+} */

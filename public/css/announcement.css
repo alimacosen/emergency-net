@@ -1,0 +1,124 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap);
+body {
+  font-family: "Roboto", sans-serif;
+  background: #EFF1F3;
+  min-height: 100vh;
+  position: relative;
+}
+a {
+  text-decoration: none;
+}
+.logo-title{
+	font-size: 25px;
+    font-weight: bold;
+    color: #9e0000;
+}
+.section-50 {
+  padding: 50px 0;
+}
+.m-b-50 {
+  margin-bottom: 50px;
+}
+.dark-link {
+  color: #333;
+  text-decoration:none!important;
+}
+.heading-line {
+  position: relative;
+  padding-bottom: 5px;
+}
+.heading-line:after {
+  content: "";
+  height: 4px;
+  width: 75px;
+  background-color: #0355d0;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.announcement-ui_dd-content {
+  margin-bottom: 30px;
+}
+.announcement-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 20px;
+  margin-bottom: 7px;
+  margin-top: 20px;
+  background: #fff;
+  -webkit-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+}
+.announcement-list--element {
+  border-left: 2px solid #d0bc03;
+}
+
+.announcement-list .announcement-list_content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.announcement-list .announcement-list_content .announcement-list_detail p {
+  margin-bottom: 5px;
+  line-height: 1.2;
+}
+
+.input-group-text {
+  background-color: #ffffff;
+}
+
+#message-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+}
+
+#announce{
+    position: absolute;
+    right: 3%;
+    top: 25%;
+    background-color: white;
+    border-style: none;
+    opacity: 0.5;
+}
+
+#announcement-content {
+    height: 70px;
+    width: 95vw;
+    border: solid 1px #C1BCBC;
+    box-shadow: 0 0 50px #C1BCBC;
+    margin-bottom: 5px;
+    outline: none;
+    padding: 0px 11% 0px 5%;
+}
+
+input:focus {
+    outline:none;
+}
+
+#load-more {
+  background-color: white;
+  display: none;
+  height: 70px;
+  width: 95vw;
+  margin-bottom: 5px;
+}
+
+#load-more:focus{
+  background-color: white;
+  color: #6d757d;
+  outline: none;
+}
+
+#load-more:hover{
+  background-color: #6d757d;
+  color: white;
+  outline: none;
+}

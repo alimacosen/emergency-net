@@ -1,0 +1,11 @@
+.flip-card-inner {
+    position: relative;
+    transition: transform 1s;
+    transform-style: preserve-3d;
+}
+
+.card-front, .card-back{
+    width: 100%;
+    height: fit-content;
+    min-height: 390px;
+}

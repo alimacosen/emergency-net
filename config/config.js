@@ -1,0 +1,5 @@
+module.exports = {
+    ONLINE: "1",
+    OFFLINE: "0",
+    TOKEN_SECRET: "a5db3ebeea0f969d10f92afd715237cbcbfe305096a9882d9973edbd0f895a359252d0c6db1e9f41f274d682b74eff6fb871d8f9545f1553bf48c1032785d743"
+};

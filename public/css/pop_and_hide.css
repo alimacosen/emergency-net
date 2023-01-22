@@ -1,0 +1,49 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    background-image: url("../img/home.jpeg");
+    background-size: cover;
+}
+
+/* popup window design */
+.popup-overlay{
+    position:fixed;
+    top:15%;
+    left:10%;
+    right:10%;
+    background-color: #faf6f6;
+    transition: opacity 500ms;
+    border-style: solid;
+    border-width: 2px;
+    height: 65%;
+}
+
+.popup-wrapper {
+    margin: 3% 5% 0% 5%;
+    overflow:auto;
+    height: 80%;
+}
+
+.agree-container {
+    right: 5%;
+    bottom: 5%;
+    position: absolute;
+}
+
+#agreePopup, #disagreePopup {
+    display:inline;
+    border-style: solid;
+    border-width: 1px;
+}
+#disagreePopup{
+    border-color: #C1BCBC;
+    background-color: #C1BCBC;
+}
+#agreePopup{
+    border-color: rgb(187, 187, 187);
+}

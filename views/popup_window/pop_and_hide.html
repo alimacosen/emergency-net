@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ESN</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        <script src="/socket.io/socket.io.js"></script>
+        <link rel="stylesheet" href="/css/pop_and_hide.css" type="text/css"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="/popup_window/pop_and_hide.js"></script>
+    </head>
+      <body>
+        <!-- pop up welcome window -->
+        <div class="popup-overlay">
+            <div class="popup-wrapper">
+            <h2> Welcome </h2>
+            <p> Welcome to FSE chat room, where you can chat with others in real time! :)</p>
+
+            <h2> Status Information </h2>
+            <p> There are four status avaiable in our chat room: </p>
+            <p style="float: left; clear: left"><img src="/img/ok.png"></p>
+            <p> means I <b>am OK</b>. I do not need help. </p>
+            <p style="float: left; clear: left"><img src="/img/alert.png"></p>
+            <p> means I <b>need help</b>, but this is not a life threatening emergency. </p>
+            <p style="float: left; clear: left"><img src="/img/emergency.png"></p>
+            <p> means I <b>need help now</b>: this is a life threatening emergency! </p>
+            <p> If no icon shows, it means the user has not proved any status info. </p>
+            <p> You can setup or change your status anytime by clicking the selection button under your name to choose your status and share it to others in this room.</p>
+            </div>
+        
+            <div class="agree-container">
+                <button class="btn btn-outline-secondary" id="disagreePopup">Disagree</button>
+                <button class="btn btn-outline-secondary" id="agreePopup">Agree</button>
+            </div>
+        </div>
+        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    </body>
+</html>

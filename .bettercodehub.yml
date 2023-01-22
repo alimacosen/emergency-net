@@ -1,0 +1,5 @@
+exclude:
+  - /views/.*\.html
+  - /public/.*
+
+component_depth: 2

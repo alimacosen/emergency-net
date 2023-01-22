@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ESN</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="/socket.io/socket.io.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/underscore@1.13.2/underscore-umd-min.js"></script>
+        <link rel="stylesheet" href="/css/message.css" type="text/css"/>
+        <link rel="stylesheet" href="/css/search.css" type="text/css"/>
+        <!-- font family -->
+        <!-- <link href='https://fonts.googleapis.com/css?family=Barlow Semi Condensed' rel='stylesheet'> -->
+        <script type="module" src="/message/message.js"></script>
+        <script type="module" src="/message/emergency.js"></script>
+        <script src="/message/userElement.js"></script>
+        <script src="/utils/userStatusUtil.js"></script>
+        <script src="/utils/messageUtil.js"></script>
+        <script src="/utils/searchUtil.js"></script>
+        <script src="/utils/socketUtil.js"></script>
+    </head>
+      <body>
+        <div class="container">
+            <div aria-live="polite" aria-atomic="true" style="position: relative;">
+                <!-- Position it -->
+                <div class="fixed-top mx-2 mt-5 pt-3">
+                    <div id="announce-toast" role="alert" aria-live="assertive" aria-atomic="true" class="toast" data-autohide="false">
+                        <div class="toast-header justify-content-between">
+                            <strong class="mr-auto">Coordinator Announcement</strong>
+                            <button id="announce-close" type="button" class="btn-close" aria-label="Close alert"></button>
+                        </div>
+                        <div id="announce-content" class="toast-body">
+                            Please find the covers IMMEDIATELY.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="rescue-notification" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Message</h5>
+                </div>
+                <div id="rescue-info" class="modal-body">
+                  You haven't had a rescue request yet.
+                </div>
+                <div class="modal-footer">
+                  <button id="ignore-rescue" type="button" class="btn btn-secondary" data-dismiss="modal">IGNORE</button>
+                  <button id = "help-rescue" type="button" class="btn help-rescue">HELP</button>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div id="overlay"></div>
+        <!-- esn directory -->
+        <div id="esn" class="m-2 mt-0 overflow-hidden" style="max-height:98vh">
+            <div class="border-bottom mb-1 d-flex justify-content-between">
+                <div class="display-5 pt-2 font-weight-bolder">ESN Directory</div>
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Setting
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a id="danger-report" class="dropdown-item" href=#>Danger Report</a>
+                    <a class="dropdown-item" href="/rescue">Rescue Mission</a>
+                    <a class="dropdown-item" href="/shelter">Shelter Directory</a>
+                    <a class="dropdown-item" href="/emergencySupply">Supply Directory</a>
+                    <div class="dropdown-divider"></div>
+                    <a id="performance" class="dropdown-item" href="/performance">Performance</a>
+                    <a id="management" class="dropdown-item" href="/management">Management</a>
+                    <a class="dropdown-item" href="/profile">Profile</a>
+                  </div>
+            </div>
+            <div>
+                <div id="esn-current-user" class="current-user">
+                    <div class="container mt-2 mb-2">
+                        <div class="row justify-content-center">
+                          <div class="col-3 display-3 font-weight-bolder align-self-center" id="firstLetter">
+                          </div>
+                          <div class="col-7">
+                            <div class="row h3" id="username">
+                            </div>
+                            <div class="row h6">
+                                <dl id="userstatus" class="dropdown p-0 m-0">
+                                    <dt><a href="#"><span>Undefined</span></a></dt>
+                                    <dd><ul>
+                                        <li ><a class="text-success" href="#"><img class="flag" src="/img/ok.png" alt="" />I'm OK<span class="value">OK</span></a></li>
+                                        <li ><a class="text-warning" href="#"><img class="flag" src="/img/alert.png" alt="" />I need HELP<span class="value">Help</span></a></li>
+                                        <li ><a class="text-danger" href="#"><img class="flag" src="/img/emergency.png" alt="" />I need HELP NOW<span class="value">Emergency</span></a></li>
+                                    </ul></dd>
+                                </dl>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Current Location</span>
+                    <input type="text" id="current-zipcode" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                </div>
+                <div class="d-grid gap-2 groupChat">
+                    <div class="btn btn-light" id="show-announcement">
+                        # Show Latest Announcement
+                    </div>
+                </div>
+                <div class="d-grid gap-2 groupChat">
+                    <button id="announce-button" class="btn btn-light" type="button"># Public Announcements</button>
+                </div>
+                
+                <div class="d-grid gap-2 groupChat">
+                    <button id="publicGroupButton" type="button" class="btn btn-light text-reset"># Public Group Chat</button>
+                </div>
+
+                <div class="input-group">
+                    <input id="search-input" type="text" class="form-control" placeholder="Search Name Here">
+
+                    <span class="input-group-text">
+                        <button id="search-button" class="btn searchIcon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-arrow-down-circle-fill" viewBox="0 0 16 16">
+                                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
+                            </svg>
+                        </button>
+                    </span>
+                </div>
+
+                <div class="search-option-content">
+                    <ul class = "status-option">
+                        <a class="text-ok" href="#"><img class="flag" src="/img/ok.png" alt="" /><span class="value">OK</span></a>
+                        <a class="text-help" href="#"><img class="flag" src="/img/alert.png" alt="" /><span class="value">Help</span></a>
+                        <a class="text-emergency" href="#"><img class="flag" src="/img/emergency.png" alt="" /><span class="value">Emergency</span></a>
+                        <a class="text-undefined" href="#"><img class="flag" src="" alt="" /><span class="value">Undefined</span></a>
+                        <a class="text-cancel" href="#"><img class="flag" src="/img/cancel.png" alt="" /><span class="value">cancel</span></a>
+                    </ul>
+                </div>
+                
+                <div id="esn-directory" class="list-group overflow-auto">
+                </div>
+            </div>
+            <div class="d-grid gap-2 m-2 fixed-bottom">
+                <button id="logout" class="btn btn-outline-secondary" type="button">Logout</button>
+            </div>
+        </div>
+        <!-- message header -->
+        <nav id="navbar-container" class="navbar fixed-top navbar-dark bg-secondary">
+            <div class="container-fluid">
+                <button type="button" id="back2ESN" class="navbar-toggler open-online-user-page">
+                    <span class="navbar-toggler-icon"></span>
+                    <span class="badge" id="unread"></span>
+                </button>
+                <a id="chatroom-name" class="navbar-brand" style="font-family: 'Barlow Semi Condensed'" href="#"></a>
+            </div>
+
+            <div class="input-group">
+                <input id="search-message-input" type="text" class="m-2 mb-0 form-control" placeholder="Search message Here">
+            </div>
+        </nav>
+        <!-- main massage page -->
+        <div id="main-container">
+            <div id="content-container">
+                <div id="messages"></div>
+            </div>
+            <div id="emergencyNotification">
+                <h4><b>Are You In Danger?</b></h4>
+                <hr class="solid">
+                <h5>Report This to Your Emergency Contact?</h5>
+                <span class="content d-none"></span>
+                <span class="status d-none"></span>
+                <div class="input-group mt-4">
+                <button id="decline" type="button" class="w-50 btn btn-light text-center">Decline</button>
+                <button id="accept" type="button" class="w-50 input-group-append btn btn-secondary">Accept</button>
+                </div>
+            </div>
+            <div id="message-container" class="fixed-bottom">
+                <div id="message-send">
+                    <input id="content" autocomplete="off" />
+                    <button id="send" type="button"> <img src="/img/send.png" height ="30" width="30"/></button>
+                </div>
+                <button id="load-more" class="btn btn-outline-secondary" type="button">Load More</button>
+            </div>
+        </div>
+        <div class="modal fade" id="danger-report-notification" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Danger Notifications</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-body">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold"><h3 id="danger-notification-title" style="color: red"></h3></div>
+                                <hr>
+                                <div class="fw-bold"><h5>Dangerous Items:</h5><span id="danger-notification-danger-item" style="color: red"></span></div>
+                                <hr>
+                                <div class="fw-bold"><h5>Description:</h5><p id="danger-notification-description" style="color: red"></p></div>
+                            </div>
+                            <span class="badge bg-primary rounded-pill" id="danger-notification-zipcode">zipcode</span>
+                            <hr>
+                            <div class="d-flex justify-content-end">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Dismiss</button>
+                                <a class="btn btn-primary" data-bs-toggle="collapse" href="#danger-notification-collapse" role="button" aria-expanded="false" aria-controls="danger-notification-collapse">
+                                    Reply
+                                </a>
+                            </div>
+                            <hr>
+                            <div class="collapse" id="danger-notification-collapse">
+                                <div class="card card-body">
+                                    <div class="input-group mb-3">
+                                        <textarea type="text" id="danger-notification-reply" class="form-control" placeholder="Reply here" aria-label="Reply" aria-describedby="reply-report-btn"></textarea>
+                                    </div>
+                                    <div class="d-grid gap-2 col-6 mx-auto">
+                                        <button class="btn btn-primary" type="button" id="reply-report-btn">Button</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        <template id="userElement">
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+            <a href="#" class="list-group-item list-group-item-action" aria-current="true">
+                <div id="userElementContainer" style="cursor: pointer"; class="container mb-2">
+                    <div class="row">
+                        <div id="userFirstLetter" class="col-2 display-6 font-weight-bolder align-self-center">
+                        </div>
+                        <div class="col-10">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <strong id="userFullName" class="text-gray-dark"></strong>
+                                <small>
+                                    <img id="userStatusIcon" src="#">
+                                </small>
+                            </div>
+                            <span id="userLatestMessage" class="d-block" style="color:silver"></span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </template>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+      </body>
+</html>

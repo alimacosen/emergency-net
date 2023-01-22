@@ -1,0 +1,26 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap);
+body {
+  font-family: "Roboto", sans-serif;
+  background: #C9CCD5;
+  position: relative;
+}
+
+#main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 62px 5px 5px 5px;
+    width: calc(100vw - 10px);
+    min-height: calc(100vh - 67px);
+    background: white;
+    border-radius: 10px;
+}
+
+#content-container {
+    width: 348px;
+    margin-top: 5px;
+}
+/* 
+[type='radio'] {
+  display: none; 
+} */

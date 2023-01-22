@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>EmergencySupply Directory</title>
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="/css/emergencySupply.css">
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="module" src="/emergencySupply/emergencySupply.js"></script>
+<script src="/utils/supplyTypeUtil.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet" crossorigin="anonymous">
+<script src="/utils/socketUtil.js"></script>
+
+</head>
+<body>
+    <nav id="navbar-container" class="navbar fixed-top navbar-dark bg-secondary">
+        <div class="container-fluid">
+            <button type="button" id="back-esn" class="navbar-toggler open-online-user-page">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <span class="navbar-brand" >
+                Supply Directory
+            </span>
+            <button type="button" class="btn btn-light" data-toggle="modal" data-target="#exampleModalCenter">
+                <i class="fa-solid fa-cart-flatbed"></i>
+            </button>
+
+        </div>
+    </nav>
+<div id = "main_error_page" class="w3-container w3-red">
+    <p id="main_limit">ERROR: Your request quantity exceeds the limit of the provider gives.</p>
+    <p id="main_invalid-input-quantity">ERROR: The quantity entered is not a valid one.</p>
+</div>
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">My Shared Supplies</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="d-flex align-items-center mb-4 pb-4 border-bottom"><i class="far fa-calendar-alt fa-3x"></i>
+                <div class="ms-3">
+                    <h4 class="text-uppercase fw-weight-bold mb-0">Directory</h4>
+                </div>
+            </div>
+            <div id = "self_shared_supplies_directory" class="container-fluid border-bottom">
+            </div>
+            <div class="d-flex align-items-center mb-4 pb-4 border-bottom"><i class="far fa-calendar-alt fa-3x"></i>
+                <div class="ms-3">
+                    <h4 class="text-uppercase fw-weight-bold mb-0">Addition</h4>
+                </div>
+            </div>
+            <div class="add-food-confirmation">
+                <p >Would you like to add the supply?</p>
+                <button id="not-add-food" class="btn btn-lg btn-outline-secondary form-register-button" type="submit">No</button>
+                <button id="food_add" class="btn btn-lg btn-outline-secondary form-register-button" type="submit">Yes</button>
+            </div>
+            <div class="add-water-confirmation">
+                <p >Would you like to add the supply?</p>
+                <button id="not-add-water" class="btn btn-lg btn-outline-secondary form-register-button" type="submit">No</button>
+                <button id = "water_add" class="btn btn-lg btn-outline-secondary form-register-button" type="submit">Yes</button>
+            </div>
+            <div class="add-medkit-confirmation">
+                <p >Would you like to add the supply?</p>
+                <button id="not-add-medkit" class="btn btn-lg btn-outline-secondary form-register-button" type="submit">No</button>
+                <button id = "medkit_add" class="btn btn-lg btn-outline-secondary form-register-button" type="submit">Yes</button>
+            </div>
+            <div class="add-clothes-confirmation">
+                <p >Would you like to add the supply?</p>
+                <button id="not-add-clothes" class="btn btn-lg btn-outline-secondary form-register-button" type="submit">No</button>
+                <button id = "clothes_add" class="btn btn-lg btn-outline-secondary form-register-button" type="submit">Yes</button>
+            </div>
+            <div class="add-blanket-confirmation">
+                <p >Would you like to add the supply?</p>
+                <button id="not-add-blanket" class="btn btn-lg btn-outline-secondary form-register-button" type="submit">No</button>
+                <button id = "blanket_add" class="btn btn-lg btn-outline-secondary form-register-button" type="submit">Yes</button>
+            </div>
+            <form>
+                <div class="form-group">
+                  <label for="recipient-name" class="col-form-label">Quantity:</label>
+                  <input type="text" id="quantity" maxlength="4" size="4">
+                  <p id="invalid-addition">ERROR: Please use update function instead of addition.</p>
+                  <p id="invalid-input-quantity">ERROR: The quantity entered is not a valid one.</p>
+                </div>
+                <div class="dropdown show">
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Add
+                    </a>
+                  
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <li id = "pre-add-food"><a class="dropdown-item" href="#"><img class="flag" src="/img/supply/food.png" width="35" height="35" alt="" />Food</a></li>
+                        <li id = "pre-add-water"><a class="dropdown-item" href="#"><img class="flag" src="/img/supply/water.png" width="35" height="35" alt="" />Water</a></li>
+                        <li id = "pre-add-medkit"><a class="dropdown-item" href="#"><img class="flag" src="/img/supply/medkit.png" width="35" height="35" alt="" />Medkit</a></li>
+                        <li id = "pre-add-clothes"><a class="dropdown-item" href="#"><img class="flag" src="/img/supply/clothes.png" width="35" height="35" alt="" />Clothes</a></li>
+                        <li id = "pre-add-blanket"><a class="dropdown-item" href="#"><img class="flag" src="/img/supply/blanket.png" width="35" height="35" alt="" />Blanket</a></li>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+        </div>
+    </div>
+</div>
+<div class="w3-container w3-teal mt-5 pt-3">
+    <hr>
+    <h1>Food</h1>
+    <hr>
+</div>
+<div class="container-fluid">
+    <div id= "food-container" class="supply-ui_dd-content"></div>
+</div>
+<div class="w3-container w3-blue">
+    <hr>
+    <h1>water</h1>
+    <hr>
+</div>
+<div class="container-fluid">
+    <div id= "water-container" class="supply-ui_dd-content"></div>
+</div>
+<div class="w3-container w3-lime">
+    <hr>
+    <h1>Medkit</h1>
+    <hr>
+</div>
+<div class="container-fluid">
+    <div id= "medkit-container" class="supply-ui_dd-content"></div>
+</div>
+<div class="w3-container w3-pale-red">
+    <hr>
+    <h1>Clothes</h1>
+    <hr>
+</div>
+<div class="container-fluid">
+    <div id= "clothes-container" class="supply-ui_dd-content"></div>
+</div>
+<div class="w3-container w3-khaki">
+    <hr>
+    <h1>Blanket</h1>
+    <hr>
+</div>
+<div class="container-fluid">
+    <div id= "blanket-container" class="supply-ui_dd-content"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</body>
+</html>
